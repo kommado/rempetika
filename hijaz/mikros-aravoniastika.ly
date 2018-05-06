@@ -9,25 +9,26 @@
 
 \paper {
   #(set-paper-size "a4")
-  top-margin = 10
-  left-margin = 10
-  right-margin = 10
+  top-margin = 5
+  left-margin = 5
+  right-margin = 5
+  system-system-spacing = #'((minimum-distance . 5) (padding . 1))
 }
 
 \header {
-  title = "Μικρός αραβωνιάστηκα"
-  composer = "Μάρκος Βαμβακαρης"
+  title = \markup { \fontsize #-3 "Μικρός αραβωνιάστηκα" }
+  composer = \markup { \fontsize #-3 "Μάρκος Βαμβακαρης"}
 }
   
 global = {
   \time 2/4
-  \key sol \minor
+  \key sib \major
+  \set Staff.midiInstrument = #"acoustic guitar (steel)"
 }
 
 music =  \relative do' {
   \global
   \set fingeringOrientations = #'(down)
-  r4 r4 r4 r4
   \repeat volta 2 {
     <do\2-2>16^"Intro"[ <si\2-1> <do\2-2>8] <re\2-2>16[ <do\2-1> <re\2-2>8]
     
@@ -81,22 +82,46 @@ music =  \relative do' {
 
 
 \score {
-  \new ChoirStaff <<
-    \new Staff {
-      \set Staff.midiInstrument = #"acoustic guitar (steel)"
-      \music       
-    }    
-  >> 
-  
-  \layout {
-    \context {
-      \Voice
-      \consists "Horizontal_bracket_engraver"
-     
+  \new StaffGroup <<
+    \new Staff {     
+      \global
+      \tempo 4 = 90
+      \new Voice = "intro" {
+        \music
+      }      
+      \bar "|."  
     }
+    %\new Lyrics \lyricsto "logia" {      
+    %  \kouple_a
+    %   \refren
+    %}
+    %\new Lyrics \lyricsto "logia" {             
+    %   \kouple_b
+    %}
+    \new TabStaff {      
+      \set Staff.stringTunings = \stringTuning <re la re'>
+      \override TabNoteHead.style = #'cross
+      \hideSplitTiedTabNotes
+      \music
+    }    
+    
+  >>  
+  \layout {
+    \omit Voice.StringNumber
+    \set fingeringOrientations = #'(down)
+    %\set fontSize = #-3
+    
+  }
+
+}
+
+\score {  
+  \unfoldRepeats {    
+    r1 
+    \music
   }
   \midi {
-    \tempo 4 = 35   
+    \tempo 4 = 60
   }
 }
 

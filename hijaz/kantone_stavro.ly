@@ -9,20 +9,21 @@
 }
 
 \header {
-  title = "Κάν'τονε Σταύρο"
-  composer = "-"
+  title = "Κάν΄ τονε Σταύρο, κάν΄ τονε - 1935"
+  composer = "Μάρκος Βαμβακάρης"
 }
   
 global = {
   \time 9/8
   \key si \minor
+  \set Staff.midiInstrument = #"acoustic guitar (steel)"
 }
  
 music = \relative re' {  
   \global
   \set fingeringOrientations = #'(down)
   
-  r1 r1 r4
+ 
   
   <la\2-0>8[ <si\2-1>16 <dos\2-3>] <re\1-0>8[ <la\2-0>] <re\1-0>[ <la\2-0>] 
   <re\1-0>8.[ <sol\1-4>16 <fas\1-3>8]
@@ -61,24 +62,28 @@ music = \relative re' {
 
 \score {
   \new StaffGroup <<
-    \new Staff {
-      \set Staff.midiInstrument = #"acoustic guitar (steel)"
+    \new Staff {    
+      \tempo 4 = 90
       \new Voice \music  
     }
     \new TabStaff {      
       \set Staff.stringTunings = \stringTuning <re la re'>
-      \tabFullNotation \music
+      \override TabNoteHead.style = #'cross
+      \hideSplitTiedTabNotes
+      \music
       
     }
   >>
-  \layout {
-    \context {
-      \Voice
-      \consists "Horizontal_bracket_engraver"
-     
-    }
+  \layout {    
+      \omit Voice.StringNumber   
+  } 
+}
+
+\score {  
+  \unfoldRepeats {    
+    r1 \music
   }
   \midi {
-    \tempo 4 = 40    
+    \tempo 4 = 40
   }
 }

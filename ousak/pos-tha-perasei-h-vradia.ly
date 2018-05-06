@@ -96,12 +96,19 @@ refren = \lyricmode {
   r
 }
 
+mychords = \chordmode {
+   re:m
+}
+
 \score {
+  
   \new StaffGroup <<
+   
     \new Staff {     
       \global
       \new Voice = "intro" {
         \tempo 4 = 90
+        
         \time 9/4 \intro
         
       }
@@ -109,6 +116,9 @@ refren = \lyricmode {
         \canto
       }
       \bar "|."  
+    }
+    \context ChordNames {
+      \mychords
     }
     %\new Lyrics \lyricsto "logia" {      
     %  \kouple_a
